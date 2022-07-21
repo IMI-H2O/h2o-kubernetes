@@ -1,0 +1,27 @@
+kubeContext: default
+server_name: example.com
+
+# --------------------------------------------------------- 20-outcomes-dashboard.yaml ---------------------------------------------------------
+
+outcomes_dashboard_postgresql:
+  _install: true
+  _chart_version: 11.1.24
+  global:
+    auth:
+      password: secret
+  image:
+    tag: 14.4.0
+  primary:
+    persistence:
+      size: 8Gi
+
+outcomes_dashboard_api:
+  _install: true
+  _chart_version: 0.1.0
+  replicaCount: 1
+
+outcomes_dashboard_webapp:
+  _install: true
+  _chart_version: 0.1.0
+  replicaCount: 1
+

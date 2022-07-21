@@ -1,0 +1,58 @@
+bases:
+- ../environments.yaml
+
+---
+
+repositories:
+  - name: radar
+    url: https://radar-base.github.io/radar-helm-charts
+    #- name: h2o
+    #url: https://imi-h2o.github.io/h2o-helm-charts
+
+helmDefaults:
+  kubeContext: {{ .Values.kubeContext }}
+
+releases:
+  - name: outcomes-dashboard-postgresql
+    chart: radar/postgresql
+    version: {{ .Values.outcomes_dashboard_postgresql._chart_version }}
+    wait: false
+    installed: {{ .Values.outcomes_dashboard_postgresql._install }}
+    values:
+      - "../etc/outcomes-dashboard-postgresql/values.yaml"
+      - {{ .Values.outcomes_dashboard_postgresql | toYaml | indent 8 | trim }}
+
+  - name: outcomes-dashboard-api
+    chart: ../../h2o-helm-charts/charts/outcomes-dashboard-api
+    #chart: h2o/outcomes-dashboard-api
+    #version: {{ .Values.outcomes_dashboard_api._chart_version }}
+    installed: {{ .Values.outcomes_dashboard_api._install }}
+    values:
+      - "../etc/outcomes-dashboard-api/values.yaml"
+      - {{ .Values.outcomes_dashboard_api | toYaml | indent 8 | trim }}
+    set:
+      - name: ingress.hosts
+        values: [{{ .Values.server_name }}]
+      {{- if or (not (hasKey .Values.outcomes_dashboard_api "jdbc")) (not (hasKey .Values.outcomes_dashboard_api.jdbc "password")) }}
+      - name: jdbc.password
+        value: {{ .Values.outcomes_dashboard_postgresql.global.auth.password }}
+      {{- end }}
+
+  - name: outcomes-dashboard-webapp
+    chart: ../../h2o-helm-charts/charts/outcomes-dashboard-webapp
+    #chart: h2o/outcomes-dashboard-webapp
+    #version: {{ .Values.outcomes_dashboard_webapp._chart_version }}
+    installed: {{ .Values.outcomes_dashboard_webapp._install }}
+    values:
+      - {{ .Values.outcomes_dashboard_webapp | toYaml | indent 8 | trim }}
+    set:
+      - name: ingress.hosts
+        values: [{{ .Values.server_name }}]
+      {{- if not (hasKey .Values.outcomes_dashboard_webapp "authUrl") }}
+      - name: authUrl
+        value: https://{{ .Values.server_name }}/managementportal/oauth
+      {{- end}}
+      {{- if not (hasKey .Values.outcomes_dashboard_webapp "authCallbackUrl") }}
+      - name: authCallbackUrl
+        value: https://{{ .Values.server_name }}/h2o/login
+      {{- end}}
