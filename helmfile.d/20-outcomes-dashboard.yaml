@@ -33,7 +33,7 @@ releases:
     set:
       - name: ingress.hosts
         values: [{{ .Values.server_name }}]
-      {{- if or (not (hasKey .Values.outcomes_dashboard_api "jdbc")) (not (hasKey .Values.outcomes_dashboard_api.jdbc "password")) }}
+      {{- if or (not (hasKey .Values.outcomes_dashboard_api "jdbc")) (not (hasKey .Values.outcomes_dashboard_api "jdbc.password")) }}
       - name: jdbc.password
         value: {{ .Values.outcomes_dashboard_postgresql.global.auth.password }}
       {{- end }}
