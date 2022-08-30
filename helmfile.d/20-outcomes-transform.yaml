@@ -1,0 +1,44 @@
+bases:
+- ../environments.yaml
+
+---
+
+repositories:
+  - name: radar
+    url: https://radar-base.github.io/radar-helm-charts
+  - name: cp-radar
+    url: https://radar-base.github.io/cp-helm-charts
+    #- name: h2o
+    #url: https://imi-h2o.github.io/h2o-helm-charts
+
+helmDefaults:
+  kubeContext: {{ .Values.kubeContext }}
+
+releases:
+  - name: outcomes-ksql-transform
+    chart: ../../../radar/cp-helm-charts/charts/cp-ksql-server
+    #version: {{ .Values.outcomes_ksql_transform._chart_version }}
+    wait: false
+    installed: {{ .Values.outcomes_ksql_transform._install }}
+    values:
+      - "../etc/outcomes-ksql-transform/values.yaml"
+      - {{ .Values.outcomes_ksql_transform | toYaml | indent 8 | trim }}
+
+  - name: outcomes-jdbc-sink-connector
+    chart: ../../../radar/radar-helm-charts/charts/radar-jdbc-connector
+    # version: {{ .Values.outcomes_jdbc_sink_connector._chart_version }}
+    installed: {{ .Values.outcomes_jdbc_sink_connector._install }}
+    values:
+      - "../etc/outcomes-jdbc-sink-connector/values.yaml"
+      - {{ .Values.outcomes_jdbc_sink_connector | toYaml | indent 8 | trim }}
+    set:
+      - name: jdbc.password
+        value: {{ .Values.outcomes_dashboard_postgresql.global.auth.password }}
+
+  - name: outcomes-jdbc-source-connector
+    chart: ../../../radar/radar-helm-charts/charts/radar-jdbc-connector
+    # version: {{ .Values.outcomes_jdbc_source_connector._chart_version }}
+    installed: {{ .Values.outcomes_jdbc_source_connector._install }}
+    values:
+      - "../etc/outcomes-jdbc-source-connector/values.yaml"
+      - {{ .Values.outcomes_jdbc_source_connector | toYaml | indent 8 | trim }}

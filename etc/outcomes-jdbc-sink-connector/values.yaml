@@ -1,0 +1,12 @@
+mode: sink
+maxTasks: 1
+
+sink:
+  name: outcomes-jdbc-sink-connector
+  topic: ksql_outcomes_observations
+  tableNameFormat: observations
+
+jdbc:
+  url: jdbc:postgresql://outcomes-dashboard-postgresql-hl:5432/outcomes
+  user: radarbase
+  dialect: PostgreSqlDatabaseDialect

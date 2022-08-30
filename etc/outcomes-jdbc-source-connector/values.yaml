@@ -1,0 +1,13 @@
+mode: source
+maxTasks: 1
+
+source:
+  name: outcomes-jdbc-source-connector
+  tableWhitelist: variables
+  topicPrefix: "outcomes_"
+  incrementingColumnName: id
+
+jdbc:
+  url: jdbc:postgresql://outcomes-dashboard-postgresql-hl:5432/outcomes
+  user: radarbase
+  dialect: PostgreSqlDatabaseDialect
