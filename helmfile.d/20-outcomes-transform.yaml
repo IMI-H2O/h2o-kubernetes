@@ -33,7 +33,7 @@ releases:
       - {{ .Values.outcomes_jdbc_sink_connector | toYaml | indent 8 | trim }}
     set:
       - name: jdbc.password
-        value: {{ .Values.outcomes_dashboard_postgresql.global.auth.password }}
+        value: {{ .Values.outcomes_dashboard_postgresql.global.postgresql.auth.password }}
 
   - name: outcomes-jdbc-source-connector
     chart: ../../../radar/radar-helm-charts/charts/radar-jdbc-connector
@@ -42,3 +42,6 @@ releases:
     values:
       - "../etc/outcomes-jdbc-source-connector/values.yaml"
       - {{ .Values.outcomes_jdbc_source_connector | toYaml | indent 8 | trim }}
+    set:
+      - name: jdbc.password
+        value: {{ .Values.outcomes_dashboard_postgresql.global.postgresql.auth.password }}

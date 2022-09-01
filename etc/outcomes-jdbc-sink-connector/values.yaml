@@ -3,7 +3,7 @@ maxTasks: 1
 
 sink:
   name: outcomes-jdbc-sink-connector
-  topic: ksql_outcomes_observations
+  topics: ksql_outcomes_observations
   tableNameFormat: observations
 
 jdbc:
