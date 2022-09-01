@@ -31,11 +31,14 @@ releases:
       - "../etc/outcomes-dashboard-api/values.yaml"
       - {{ .Values.outcomes_dashboard_api | toYaml | indent 8 | trim }}
     set:
+      - name: serverName
+        value: {{ .Values.server_name }}
       - name: ingress.hosts
-        values: [{{ .Values.server_name }}]
-      {{- if or (not (hasKey .Values.outcomes_dashboard_api "jdbc")) (not (hasKey .Values.outcomes_dashboard_api "jdbc.password")) }}
+        values:
+          - {{ .Values.server_name }}
+      {{- if or (not (hasKey .Values.outcomes_dashboard_api "jdbc")) (not (hasKey .Values.outcomes_dashboard_api.jdbc "password")) }}
       - name: jdbc.password
-        value: {{ .Values.outcomes_dashboard_postgresql.global.auth.password }}
+        value: {{ .Values.outcomes_dashboard_postgresql.global.postgresql.auth.password }}
       {{- end }}
 
   - name: outcomes-dashboard-webapp
@@ -46,13 +49,12 @@ releases:
     values:
       - {{ .Values.outcomes_dashboard_webapp | toYaml | indent 8 | trim }}
     set:
+      - name: serverName
+        value: {{ .Values.server_name }}
       - name: ingress.hosts
-        values: [{{ .Values.server_name }}]
-      {{- if not (hasKey .Values.outcomes_dashboard_webapp "authUrl") }}
-      - name: authUrl
-        value: https://{{ .Values.server_name }}/managementportal/oauth
-      {{- end}}
-      {{- if not (hasKey .Values.outcomes_dashboard_webapp "authCallbackUrl") }}
-      - name: authCallbackUrl
-        value: https://{{ .Values.server_name }}/h2o/login
+        values:
+          - {{ .Values.server_name }}
+      {{- if not (hasKey .Values.outcomes_dashboard_webapp "managementPortal.url") }}
+      - name: managementPortal.url
+        value: https://{{ .Values.server_name }}/managementportal
       {{- end}}

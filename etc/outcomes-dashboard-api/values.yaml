@@ -1,4 +1,3 @@
 jdbc:
-  url: jdbc:postgresql://postgresql:5432/outcomes
+  url: jdbc:postgresql://outcomes-dashboard-postgresql-hl:5432/outcomes
   user: radarbase
-
