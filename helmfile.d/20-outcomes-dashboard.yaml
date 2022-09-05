@@ -6,8 +6,8 @@ bases:
 repositories:
   - name: radar
     url: https://radar-base.github.io/radar-helm-charts
-    #- name: h2o
-    #url: https://imi-h2o.github.io/h2o-helm-charts
+  - name: h2o
+    url: https://imi-h2o.github.io/h2o-helm-charts
 
 helmDefaults:
   kubeContext: {{ .Values.kubeContext }}
@@ -23,9 +23,8 @@ releases:
       - {{ .Values.outcomes_dashboard_postgresql | toYaml | indent 8 | trim }}
 
   - name: outcomes-dashboard-api
-    chart: ../../h2o-helm-charts/charts/outcomes-dashboard-api
-    #chart: h2o/outcomes-dashboard-api
-    #version: {{ .Values.outcomes_dashboard_api._chart_version }}
+    chart: h2o/outcomes-dashboard-api
+    version: {{ .Values.outcomes_dashboard_api._chart_version }}
     installed: {{ .Values.outcomes_dashboard_api._install }}
     values:
       - "../etc/outcomes-dashboard-api/values.yaml"
@@ -42,9 +41,8 @@ releases:
       {{- end }}
 
   - name: outcomes-dashboard-webapp
-    chart: ../../h2o-helm-charts/charts/outcomes-dashboard-webapp
-    #chart: h2o/outcomes-dashboard-webapp
-    #version: {{ .Values.outcomes_dashboard_webapp._chart_version }}
+    chart: h2o/outcomes-dashboard-webapp
+    version: {{ .Values.outcomes_dashboard_webapp._chart_version }}
     installed: {{ .Values.outcomes_dashboard_webapp._install }}
     values:
       - {{ .Values.outcomes_dashboard_webapp | toYaml | indent 8 | trim }}

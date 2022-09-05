@@ -17,24 +17,24 @@ outcomes_dashboard_postgresql:
 
 outcomes_dashboard_api:
   _install: true
-  _chart_version: 0.1.0
+  _chart_version: 0.1.1
   replicaCount: 1
 
 outcomes_dashboard_webapp:
   _install: true
-  _chart_version: 0.1.0
+  _chart_version: 0.1.1
   replicaCount: 1
 
 # --------------------------------------------------------- 20-outcomes-transform.yaml ---------------------------------------------------------
 
 outcomes_jdbc_sink_connector:
   _install: true
-  _chart_version: 0.1.6
+  _chart_version: 0.2.0
   replicaCount: 1
 
 outcomes_jdbc_source_connector:
   _install: true
-  _chart_version: 0.1.6
+  _chart_version: 0.2.0
   replicaCount: 1
 
 outcomes_ksql_transform:
