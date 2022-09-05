@@ -1,0 +1,17 @@
+kubeContext: h2o-dev
+server_name: h2o-dev.thehyve.net
+
+# --------------------------------------------------------- 20-outcomes-dashboard.yaml ---------------------------------------------------------
+
+outcomes_dashboard_postgresql:
+  _chart_version: 11.1.24
+  image:
+    tag: 14.4.0
+
+outcomes_dashboard_api:
+  _chart_version: 0.1.0
+  replicaCount: 1
+
+outcomes_dashboard_webapp:
+  _chart_version: 0.1.0
+  replicaCount: 1

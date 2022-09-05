@@ -1,0 +1,4 @@
+outcomes_ksql_transform:
+  ksql:
+    queries: |
+      {{- readFile "outcomes-ksql-transform/queries.sql" | nindent 8 }}

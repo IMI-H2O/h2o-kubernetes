@@ -1,0 +1,6 @@
+---
+creation_rules:
+  - kms: "arn:aws:kms:eu-central-1:500695312976:key/89ea37ed-41c5-4abe-99e0-7effa914b482"
+    pgp: >-
+      5A0631E54969D48F16243B9616CB8ECBCBEF2CF0,
+      C5E78033AC7F178A5AC1BC64EC393A8546DA31D7
