@@ -3,9 +3,10 @@ maxTasks: 1
 
 source:
   name: outcomes-jdbc-source-connector
-  tableWhitelist: variables
+  tableWhitelist: variable
   topicPrefix: "outcomes_"
   incrementingColumnName: id
+  keyField: name
 
 jdbc:
   url: jdbc:postgresql://outcomes-dashboard-postgresql-hl:5432/outcomes

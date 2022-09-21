@@ -16,16 +16,16 @@ CREATE STREAM questionnaire_response (
     format = 'avro'
 );
 
--- Define table loaded from the outcomes_dashboard_variables table.
+-- Define table loaded from the outcomes_variable table.
 -- This way it can be read by ksqlDB
-CREATE TABLE outcomes_dashboard_variables (
+CREATE TABLE outcomes_variable (
     id BIGINT,
     name VARCHAR PRIMARY KEY,
     type VARCHAR,
     category VARCHAR,
     date_type VARCHAR
 ) WITH (
-    kafka_topic = 'outcomes_dashboard_variables',
+    kafka_topic = 'outcomes_variable',
     partitions = 3,
     format = 'avro'
 );
@@ -68,5 +68,5 @@ AS SELECT
     o.value_textual
 FROM outcomes_observations_unindexed o
 -- this will force o.variable to be the record key
-JOIN outcomes_dashboard_variables v ON o.variable = v.name
+JOIN outcomes_variable v ON o.variable = v.name
 EMIT CHANGES;

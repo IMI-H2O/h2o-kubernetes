@@ -9,9 +9,9 @@ outcomes_dashboard_postgresql:
     tag: 14.4.0
 
 outcomes_dashboard_api:
-  _chart_version: 0.1.0
+  _chart_version: 0.1.1
   replicaCount: 1
 
 outcomes_dashboard_webapp:
-  _chart_version: 0.1.0
+  _chart_version: 0.1.1
   replicaCount: 1
