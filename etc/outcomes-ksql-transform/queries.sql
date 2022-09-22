@@ -1,3 +1,5 @@
+SET 'auto.offset.reset' = 'earliest';
+
 -- Define stream from questionnaire response topic
 -- This way it can be read by ksqlDB
 CREATE STREAM questionnaire_response (
@@ -38,13 +40,13 @@ WITH (
     format = 'avro'
 )
 AS SELECT
-    EXPLODE(TRANSFORM(q.answers, a => a->questionId)) as variable,
-    FROM_UNIXTIME(CAST(q.time * 1000 AS BIGINT)) as date,
-    q.userId as subject_id,
-    CAST(NULL as TIMESTAMP) as end_date,
+    EXPLODE(TRANSFORM(q.answers, a => a->questionId)) as `variable`,
+    FROM_UNIXTIME(CAST(q.time * 1000 AS BIGINT)) as `date`,
+    q.userId as `subject_id`,
+    CAST(NULL as TIMESTAMP) as `end_date`,
     -- if present, take the int response, otherwise try to convert if the string response to a numeric value.
-    EXPLODE(TRANSFORM(q.answers, a => COALESCE(a->value->int, CAST(a->value->string as INT)))) as value_numeric,
-    EXPLODE(TRANSFORM(q.answers, a => a->value->string)) as value_textual
+    EXPLODE(TRANSFORM(q.answers, a => COALESCE(a->value->int, CAST(a->value->string as INT)))) as `value_numeric`,
+    EXPLODE(TRANSFORM(q.answers, a => a->value->string)) as `value_textual`
 FROM questionnaire_response q
 PARTITION BY q.userId
 EMIT CHANGES;
@@ -59,14 +61,14 @@ WITH (
     format = 'avro'
 )
 AS SELECT
-    o.variable,
-    v.id as variable_id,
-    o.subject_id,
-    o.date,
-    o.end_date,
-    o.value_numeric,
-    o.value_textual
+    o.`variable`,
+    v.id as `variable_id`,
+    o.`subject_id`,
+    o.`date`,
+    o.`end_date`,
+    o.`value_numeric`,
+    o.`value_textual`
 FROM outcomes_observations_unindexed o
 -- this will force o.variable to be the record key
-JOIN outcomes_variable v ON o.variable = v.name
+JOIN outcomes_variable v ON o.`variable` = v.name
 EMIT CHANGES;
