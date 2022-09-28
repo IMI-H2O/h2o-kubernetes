@@ -29,12 +29,12 @@ outcomes_dashboard_webapp:
 
 outcomes_jdbc_sink_connector:
   _install: true
-  _chart_version: 0.2.0
+  _chart_version: 0.3.0
   replicaCount: 1
 
 outcomes_jdbc_source_connector:
   _install: true
-  _chart_version: 0.2.0
+  _chart_version: 0.3.0
   replicaCount: 1
 
 outcomes_ksql_transform:

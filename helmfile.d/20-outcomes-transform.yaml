@@ -34,8 +34,8 @@ releases:
         value: {{ .Values.outcomes_dashboard_postgresql.global.postgresql.auth.password }}
 
   - name: outcomes-jdbc-source-connector
-    chart: ../../../radar/radar-helm-charts/charts/radar-jdbc-connector
-    # version: {{ .Values.outcomes_jdbc_source_connector._chart_version }}
+    chart: radar/radar-jdbc-connector
+    version: {{ .Values.outcomes_jdbc_source_connector._chart_version }}
     installed: {{ .Values.outcomes_jdbc_source_connector._install }}
     values:
       - "../etc/outcomes-jdbc-source-connector/values.yaml"

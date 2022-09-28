@@ -4,7 +4,11 @@ maxTasks: 1
 sink:
   name: outcomes-jdbc-sink-connector
   topics: ksql_outcomes_observations
-  tableNameFormat: observations
+  tableNameFormat: observation
+  insertMode: insert
+  mergeKey: false
+  primaryKeys:
+    mode: none
 
 jdbc:
   url: jdbc:postgresql://outcomes-dashboard-postgresql-hl:5432/outcomes
