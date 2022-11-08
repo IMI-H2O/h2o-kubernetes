@@ -51,6 +51,26 @@ FROM questionnaire_response q
 PARTITION BY q.userId
 EMIT CHANGES;
 
+-- Read select statements.
+CREATE STREAM outcomes_observations_unindexed_select
+WITH (
+    kafka_topic = 'ksql_outcomes_observations_unindexed',
+    partitions = 3,
+    format = 'avro'
+)
+AS SELECT
+    EXPLODE(SPLIT(`value_textual`, ',')) as `variable`,
+    `subject_id`,
+    `date`,
+    `end_date`,
+    1 as `value_numeric`,
+    CAST(NULL as VARCHAR) as `value_textual`
+FROM outcomes_observations_unindexed
+WHERE `variable` LIKE 'select:%'
+  AND `value_textual` IS NOT NULL
+  AND `value_textual` != ''
+EMIT CHANGES;
+
 -- Read the correct variable ID from the database and join it with the question ID.
 -- Non-existing variables will not be joined so questionIds that are not used in H2O
 -- will not be converted.
